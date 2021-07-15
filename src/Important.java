@@ -61,7 +61,7 @@ public class Important {
         ListNode fast = list1;
         ListNode slow = list1;
 
-        while (fast != null) {
+        while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
             if (fast == slow) {
@@ -77,7 +77,7 @@ public class Important {
     public static ListNode findFirstCycleNode(ListNode list1) {
         ListNode fast = list1;
         ListNode slow = list1;
-        while (fast != null) {
+        while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
             if (fast == slow) {
@@ -108,7 +108,7 @@ public class Important {
         four.next = five;
 //        ListNode newHead = reverseList(head);
 //        ListNode newHead = reverseList2(head);
-        ListNode newHead = reverseKGroup(head,2);
+        ListNode newHead = reverseKGroup(head, 2);
         while (newHead != null) {
             System.out.println(newHead.val);
             newHead = newHead.next;
@@ -128,38 +128,40 @@ public class Important {
     }
 
     // 递归翻转
-    public static ListNode reverseList2(ListNode list1){
-       if(list1 == null || list1.next == null){
-           return list1;
-       }
-       ListNode last = reverseList2(list1.next);
-       list1.next.next = list1;
-       list1.next = null;
-       return last;
+    public static ListNode reverseList2(ListNode list1) {
+        if (list1 == null || list1.next == null) {
+            return list1;
+        }
+        ListNode last = reverseList2(list1.next);
+        list1.next.next = list1;
+        list1.next = null;
+        return last;
     }
 
 
     // 5. K个一组翻转链表
-    public static ListNode reverseKGroup(ListNode list1, int k){
-        if(list1 ==null) return null;
+    public static ListNode reverseKGroup(ListNode list1, int k) {
+        if (list1 == null) return null;
         // 区间[a,b)包含k个待反转元素
         ListNode a, b;
         a = b = list1;
         for (int i = 0; i < k; i++) {
             // 不足k个,不需要反转
-            if(b == null) return list1;
+            if (b == null) return list1;
             b = b.next;
         }
         // 反转前k个元素
-        ListNode newHead = reverse(a,b);
-        a.next = reverseKGroup(b,k);
+        ListNode newHead = reverse(a, b);
+        a.next = reverseKGroup(b, k);
         return newHead;
     }
+
     // 反转区间[a,b)
-    public static ListNode reverse(ListNode a, ListNode b){
+    public static ListNode reverse(ListNode a, ListNode b) {
         ListNode pre, cur, next;
-        pre = null; cur = a;
-        while(cur!= b){
+        pre = null;
+        cur = a;
+        while (cur != b) {
             next = cur.next;
             cur.next = pre;
             pre = cur;

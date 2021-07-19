@@ -3,7 +3,8 @@ public class Important {
     public static void main(String[] args) {
 
 //        isExistCycleTest();
-        reverseListTest();
+//        reverseListTest();
+        testLowestCommonAncestor();
     }
 
     // 1. 合并两个链表
@@ -168,6 +169,51 @@ public class Important {
             cur = next;
         }
         return pre;
+    }
+
+    // 6. 最近公共节点
+    public static void testLowestCommonAncestor() {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+
+        node1.left = node2;
+        node1.right = node3;
+        node2.left = node4;
+        node2.right = node5;
+        node4.left = node6;
+
+        TreeNode result = lowestCommonAncestor(node1, node4, node6);
+        System.out.println("结果="+result.val);
+    }
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        // base case
+        if (root == null) return null;
+        if (p == root || q == root) return root;
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        // 后序遍历
+        if (left != null && right != null) {
+            System.out.println("11");
+            return root;
+        }
+
+        if (left == null && right == null) {
+            System.out.println("22");
+            return null;
+        }
+
+        if(left!=null){
+            System.out.println("left.val = "+left.val);
+        }
+        System.out.println("33"+"left = "+left +" right = "+right);
+        return left == null ? right : left;
     }
 
 }

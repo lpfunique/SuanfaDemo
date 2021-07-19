@@ -189,6 +189,8 @@ public class Important {
         TreeNode result = lowestCommonAncestor(node1, node4, node6);
         System.out.println("结果="+result.val);
     }
+
+    // 普通二叉树
     public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 
         // base case
@@ -204,16 +206,26 @@ public class Important {
             return root;
         }
 
-        if (left == null && right == null) {
-            System.out.println("22");
-            return null;
-        }
-
-        if(left!=null){
-            System.out.println("left.val = "+left.val);
-        }
         System.out.println("33"+"left = "+left +" right = "+right);
         return left == null ? right : left;
+    }
+
+    // 二叉搜索树
+    public static TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null) return null;
+
+        // 如果当前根节点 < 两个值，那说明p q都在右子树
+        if(root.val < p.val && root.val < q.val ){
+            return lowestCommonAncestor2(root.right, p, q);
+        }
+
+        // 如果当前根节点 > 两个值，那说明p q都在左子树
+        if( root.val > p.val && root.val > q.val ){
+            return lowestCommonAncestor2(root.left, p, q);
+        }
+
+        // 否则 p q 可能是在两边
+        return root;
     }
 
 }

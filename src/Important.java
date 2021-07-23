@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Important {
 
     public static void main(String[] args) {
@@ -187,7 +190,7 @@ public class Important {
         node4.left = node6;
 
         TreeNode result = lowestCommonAncestor(node1, node4, node6);
-        System.out.println("结果="+result.val);
+        System.out.println("结果=" + result.val);
     }
 
     // 普通二叉树
@@ -206,26 +209,56 @@ public class Important {
             return root;
         }
 
-        System.out.println("33"+"left = "+left +" right = "+right);
+        System.out.println("33" + "left = " + left + " right = " + right);
         return left == null ? right : left;
     }
 
     // 二叉搜索树
-    public static TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q){
-        if(root == null) return null;
+    public static TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return null;
 
         // 如果当前根节点 < 两个值，那说明p q都在右子树
-        if(root.val < p.val && root.val < q.val ){
+        if (root.val < p.val && root.val < q.val) {
             return lowestCommonAncestor2(root.right, p, q);
         }
 
         // 如果当前根节点 > 两个值，那说明p q都在左子树
-        if( root.val > p.val && root.val > q.val ){
+        if (root.val > p.val && root.val > q.val) {
             return lowestCommonAncestor2(root.left, p, q);
         }
 
         // 否则 p q 可能是在两边
         return root;
+    }
+
+    // 7. 二叉树的深度
+
+    // 递归
+    public static int maxDepth(TreeNode root) {
+        return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    // 非递归
+    public static int maxDepth2(TreeNode root){
+        if(root == null) return 0;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int depth = 0;
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode temp = queue.poll();
+                if(temp.left!=null ){
+                    queue.add(temp.left);
+                }
+                if(temp.right!=null){
+                    queue.add(temp.right);
+                }
+            }
+            depth++;
+        }
+        return depth;
     }
 
 }
